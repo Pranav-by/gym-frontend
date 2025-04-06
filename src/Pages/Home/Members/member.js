@@ -1,36 +1,55 @@
 import React from 'react';
-import PersonIcon from '@mui/icons-material/Person';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import SearchIcon from '@mui/icons-material/Search';
-import ListIcon from '@mui/icons-material/List';
+import { useNavigate } from 'react-router-dom';
+import { PersonAdd, Search, FormatListBulleted } from '@mui/icons-material';
 
-const Member = () => {
-    const memberOptions = [
-        { title: "All Members", icon: <ListIcon />, color: "from-blue-400 via-blue-600 to-indigo-600" },
-        { title: "Add New Member", icon: <PersonAddIcon />, color: "from-green-400 via-green-600 to-emerald-600" },
-        { title: "Search Members", icon: <SearchIcon />, color: "from-yellow-400 via-yellow-600 to-orange-600" },
-        { title: "Member Profiles", icon: <PersonIcon />, color: "from-pink-400 via-pink-600 to-purple-600" },
-    ];
+const memberCards = [
+  {
+    title: 'All Members',
+    icon: <FormatListBulleted fontSize="large" />,
+    path: '/members',
+    color: 'from-blue-500 to-indigo-500'
+  },
+  {
+    title: 'Add New Member',
+    icon: <PersonAdd fontSize="large" />,
+    path: '/registrations',
+    color: 'from-green-500 to-teal-500'
+  },
+  
+];
 
-    return (
-        <div className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-6 min-h-screen">
-            <h2 className="text-3xl font-bold mb-6 text-center text-purple-400">Member Management</h2>
-            <div className="grid grid-cols-2 gap-6">
-                {memberOptions.map((option, idx) => (
-                    <div
-                        key={idx}
-                        className="bg-gray-800 rounded-xl shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-900 cursor-pointer"
-                    >
-                        <div className={`w-full h-12 rounded-t-xl bg-gradient-to-r ${option.color}`}></div>
-                        <div className="flex flex-col items-center justify-center p-6">
-                            <div className="text-4xl text-cyan-300">{option.icon}</div>
-                            <p className="mt-4 font-semibold text-xl text-gray-300">{option.title}</p>
-                        </div>
-                    </div>
-                ))}
+const MemberHome = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950 text-white p-6">
+      <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 text-center mb-10">
+        👥 Member Management
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 place-items-center">
+        {memberCards.map((card, index) => (
+          <div
+            key={index}
+            onClick={() => navigate(card.path)}
+            className="w-full sm:w-80 cursor-pointer bg-glassWhite backdrop-blur-glass border border-white/10 rounded-3xl p-6 shadow-neo transform hover:scale-105 transition-all duration-300 relative"
+          >
+            {/* Top Gradient Border */}
+            <div className={`absolute top-0 left-0 right-0 h-1 rounded-t-3xl bg-gradient-to-r ${card.color}`} />
+
+            {/* Icon */}
+            <div className="text-cyan-300 text-5xl mb-4">
+              {card.icon}
             </div>
-        </div>
-    );
+
+            {/* Title */}
+            <h2 className="text-xl font-semibold text-white">{card.title}</h2>
+            <p className="text-gray-400 text-sm mt-2">Access {card.title} →</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default Member;
+export default MemberHome;
