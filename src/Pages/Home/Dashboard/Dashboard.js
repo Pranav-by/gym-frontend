@@ -30,6 +30,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950 text-white p-6">
+      
       <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-500 text-center mb-12 drop-shadow-lg">
         💎 FITTRACK: Gym Management System
       </h1>
