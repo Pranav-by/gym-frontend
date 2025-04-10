@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import HoverSound from '../../utils/HoverSound';
 
 const Members = () => {
   const originalMembers = [
@@ -13,11 +15,11 @@ const Members = () => {
   const [planFilter, setPlanFilter] = useState('');
 
   const filteredMembers = originalMembers
-    .filter(member =>
+    .filter((member) =>
       member.name.toLowerCase().includes(search.toLowerCase()) ||
       member.email.toLowerCase().includes(search.toLowerCase())
     )
-    .filter(member => (planFilter ? member.plan === planFilter : true))
+    .filter((member) => (planFilter ? member.plan === planFilter : true))
     .sort((a, b) =>
       sortAsc
         ? new Date(a.joined) - new Date(b.joined)
@@ -25,23 +27,36 @@ const Members = () => {
     );
 
   return (
-    <div className="p-10 min-h-screen text-white bg-gradient-to-br from-black via-gray-900 to-gray-800">
-      <h1 className="text-3xl font-bold mb-4 text-yellow-400">👥 Joined Members</h1>
-      
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950 text-white p-6 font-sans overflow-x-hidden">
+      <HoverSound />
+
+      <motion.h1
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center text-4xl font-extrabold bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent mb-10 drop-shadow-xl"
+      >
+        👥 Joined Members Panel
+      </motion.h1>
 
       {/* Controls */}
-      <div className="flex flex-wrap gap-4 mb-6">
+      <motion.div
+        className="flex flex-wrap gap-4 justify-center items-center mb-8"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
         <input
           type="text"
-          placeholder="🔍 Search by name/email..."
+          placeholder="🔍 Search by name/email"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="bg-gray-800 px-4 py-2 rounded-md border border-gray-600 text-white focus:outline-none"
+          className="bg-gray-900 px-4 py-2 rounded-lg border border-gray-700 text-white w-64 hover:shadow-lg transition-all focus:ring-2 focus:ring-purple-600"
         />
         <select
           value={planFilter}
           onChange={(e) => setPlanFilter(e.target.value)}
-          className="bg-gray-800 px-4 py-2 rounded-md border border-gray-600 text-white"
+          className="bg-gray-900 px-4 py-2 rounded-lg border border-gray-700 text-white hover:shadow-lg focus:ring-2 focus:ring-yellow-400"
         >
           <option value="">All Plans</option>
           <option value="Basic">Basic</option>
@@ -51,38 +66,47 @@ const Members = () => {
         </select>
         <button
           onClick={() => setSortAsc(!sortAsc)}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
+          className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-lg hover:scale-105 transition-all duration-300 shadow-xl"
         >
           Sort by Date {sortAsc ? '⬆️' : '⬇️'}
         </button>
-      </div>
+      </motion.div>
 
       {/* Count */}
-      <div className="mb-4 text-green-300 font-semibold">
+      <motion.div
+        className="text-center text-green-400 font-medium mb-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+      >
         Total Members: {filteredMembers.length}
-      </div>
+      </motion.div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-gray-800 rounded-xl shadow-lg">
-        <table className="min-w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-gray-700 text-green-300">
-              <th className="py-3 px-4">Member ID</th>
-              <th className="py-3 px-4">Name</th>
-              <th className="py-3 px-4">Email</th>
-              <th className="py-3 px-4">Joined Date</th>
-              <th className="py-3 px-4">Membership Plan</th>
+      <div className="overflow-x-auto bg-[#0d0d0d]/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10">
+        <table className="min-w-full table-auto text-sm md:text-base">
+          <thead className="text-left bg-gradient-to-r from-gray-800 to-gray-900 text-green-400">
+            <tr>
+              <th className="py-4 px-6"># ID</th>
+              <th className="py-4 px-6">Name</th>
+              <th className="py-4 px-6">Email</th>
+              <th className="py-4 px-6">Joined</th>
+              <th className="py-4 px-6">Plan</th>
             </tr>
           </thead>
           <tbody>
             {filteredMembers.map((member, index) => (
-              <tr key={index} className="hover:bg-gray-700 transition">
-                <td className="py-2 px-4">#{member.id}</td>
-                <td className="py-2 px-4">{member.name}</td>
-                <td className="py-2 px-4">{member.email}</td>
-                <td className="py-2 px-4">{member.joined}</td>
-                <td className="py-2 px-4 text-yellow-400 font-semibold">{member.plan}</td>
-              </tr>
+              <motion.tr
+                key={index}
+                whileHover={{ scale: 1.015 }}
+                className="hover:bg-gray-800 transition-all"
+              >
+                <td className="py-3 px-6 font-semibold text-gray-300">#{member.id}</td>
+                <td className="py-3 px-6 text-white">{member.name}</td>
+                <td className="py-3 px-6 text-blue-300">{member.email}</td>
+                <td className="py-3 px-6 text-gray-400">{member.joined}</td>
+                <td className="py-3 px-6 text-yellow-400 font-bold">{member.plan}</td>
+              </motion.tr>
             ))}
           </tbody>
         </table>

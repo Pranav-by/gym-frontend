@@ -1,9 +1,10 @@
-// utils/ProtectedRoute.js
+// src/utils/ProtectedRoute.js
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = sessionStorage.getItem("isLogin");
-  return isLoggedIn ? children : <Navigate to="/" replace />;
+  const isLogin = sessionStorage.getItem("isLogin");
+  return isLogin ? children : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

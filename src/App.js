@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react';
+// src/App.js
 import './App.css';
+import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
 import Sidebar from './Components/Sidebar/Sidebar';
 import Dashboard from './Pages/Home/Dashboard/Dashboard';
 import Home from './Pages/Home/home';
@@ -14,37 +17,29 @@ import DietNutritionPlans from './Pages/DietNutrition/DietNutritionPlans';
 import MemberFeedback from './Pages/Feedback/MemberFeedback';
 import Members from './Pages/Members/Members';
 import NewRegistration from './Pages/Registration/NewRegistration';
-import UserProfile from './Pages/Profile/UserProfile'; // Optional Profile Page
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import UserProfile from './Pages/Profile/UserProfile';
+import ForgetPassword from './Components/ForgetPassword/forgetPassword';
+import ProtectedRoute from './utils/ProtectedRoute';
 
-// Toast
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// ProtectedRoute wrapper
-import ProtectedRoute from './utils/ProtectedRoute';
-
 function App() {
-  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     const isLoggedIn = sessionStorage.getItem("isLogin");
-    if (isLoggedIn) {
-      setIsLogin(true);
-    } else {
-      navigate('/');
-    }
-  }, [navigate]);
+    setIsLogin(isLoggedIn === "true"); // ✅ only show sidebar if actually logged in
+  }, []);
 
   return (
     <div className="flex min-h-screen overflow-hidden bg-black">
       {isLogin && <Sidebar />}
-
       <div className="flex-1 overflow-auto">
         <ToastContainer position="top-right" autoClose={3000} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home setIsLogin={setIsLogin} />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
 
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/member" element={<ProtectedRoute><Member /></ProtectedRoute>} />
@@ -60,7 +55,6 @@ function App() {
           <Route path="/registrations" element={<ProtectedRoute><NewRegistration /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
 
-          {/* Fallback Route */}
           <Route path="*" element={<div className="p-4 text-white">404 - Page Not Found</div>} />
         </Routes>
       </div>

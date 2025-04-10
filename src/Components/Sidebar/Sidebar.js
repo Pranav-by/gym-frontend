@@ -4,6 +4,24 @@ import GroupIcon from '@mui/icons-material/Group';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useNavigate } from 'react-router-dom';
 
+// Hover Sound Logic
+let userInteracted = false;
+if (typeof window !== 'undefined') {
+  window.addEventListener(
+    'click',
+    () => {
+      userInteracted = true;
+    },
+    { once: true }
+  );
+}
+const playHoverSound = () => {
+  if (!userInteracted) return;
+  const audio = new Audio('/sounds/hover.mp3');
+  audio.volume = 0.5;
+  audio.play().catch((e) => console.warn('Audio blocked:', e));
+};
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState('');
@@ -23,48 +41,65 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-72 min-h-screen bg-glassWhite backdrop-blur-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 text-white flex flex-col items-center p-6 space-y-10">
-      
-      {/* Branding */}
-      <div className="flex items-center gap-3">
-        <img
-          src="/image.png"
-          alt="Logo"
-          className="h-16 w-16 rounded-full border-2 border-purple-500 shadow-xl"
-        />
-        <span className="text-2xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-transparent bg-clip-text">
-          FITTRACK
-        </span>
+    <div className="w-72 min-h-screen bg-[#0a0a0a] relative text-white flex flex-col items-center p-6 border-r border-white/10 shadow-2xl overflow-hidden">
+
+      {/* Subtle Glow Layer */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute -inset-10 bg-gradient-to-tr from-purple-800 via-indigo-900 to-blue-900 opacity-25 blur-2xl animate-spin-slow rounded-full"></div>
       </div>
 
-      {/* Greeting */}
-      <div className="text-center text-lg font-semibold animate-pulse text-cyan-300">
-        {greeting}
-      </div>
-      <div className="text-sm text-gray-400 tracking-wide">Admin Panel</div>
+      {/* Sidebar content */}
+      <div className="relative z-10 flex flex-col items-center w-full space-y-10">
+        {/* Branding */}
+        <div className="flex items-center gap-3">
+          <img
+            src="/image.png"
+            alt="Logo"
+            className="h-14 w-14 rounded-full border border-purple-700 shadow-md"
+          />
+          <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 text-transparent bg-clip-text">
+            FITTRACK
+          </span>
+        </div>
 
-      {/* Navigation */}
-      <div className="flex flex-col gap-6 w-full">
-        <Link to="/dashboard">
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-black/30 hover:bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 hover:text-black transition-all duration-300 ease-in-out cursor-pointer shadow-md hover:shadow-lg">
-            <HomeIcon />
-            <span className="font-semibold">Dashboard</span>
+        {/* Greeting */}
+        <div className="text-center text-sm font-semibold text-purple-300 animate-pulse">
+          {greeting}
+        </div>
+        <div className="text-xs text-gray-500 tracking-wider uppercase">
+          Admin Panel
+        </div>
+
+        {/* Navigation */}
+        <div className="flex flex-col gap-6 w-full">
+          <Link to="/dashboard">
+            <div
+              onMouseEnter={playHoverSound}
+              className="flex items-center gap-4 p-4 rounded-xl bg-[#111111] hover:bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.03] shadow-md hover:shadow-purple-700/40"
+            >
+              <HomeIcon />
+              <span className="font-medium tracking-wide">Dashboard</span>
+            </div>
+          </Link>
+
+          <Link to="/member">
+            <div
+              onMouseEnter={playHoverSound}
+              className="flex items-center gap-4 p-4 rounded-xl bg-[#111111] hover:bg-gradient-to-r from-green-600 via-emerald-700 to-teal-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.03] shadow-md hover:shadow-emerald-600/40"
+            >
+              <GroupIcon />
+              <span className="font-medium tracking-wide">Members</span>
+            </div>
+          </Link>
+
+          <div
+            onClick={handleLogout}
+            onMouseEnter={playHoverSound}
+            className="flex items-center gap-4 p-4 rounded-xl bg-[#111111] hover:bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-[1.03] shadow-md hover:shadow-pink-500/40"
+          >
+            <LogoutIcon />
+            <span className="font-medium tracking-wide">Logout</span>
           </div>
-        </Link>
-
-        <Link to="/member">
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-black/30 hover:bg-gradient-to-r from-green-300 via-lime-400 to-yellow-300 hover:text-black transition-all duration-300 ease-in-out cursor-pointer shadow-md hover:shadow-lg">
-            <GroupIcon />
-            <span className="font-semibold">Members</span>
-          </div>
-        </Link>
-
-        <div
-          onClick={handleLogout}
-          className="flex items-center gap-4 p-4 rounded-xl bg-black/30 hover:bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 hover:text-black transition-all duration-300 ease-in-out cursor-pointer shadow-md hover:shadow-lg"
-        >
-          <LogoutIcon />
-          <span className="font-semibold">Logout</span>
         </div>
       </div>
     </div>
