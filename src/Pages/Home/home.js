@@ -21,11 +21,31 @@ const Home = ({ setIsLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
+    <div
+      className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL}/stars.gif)`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* 🌌 HUD Overlay */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/hud-overlay.png)`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.15,
+        }}
+      />
 
       {/* 🔥 Neon Blurs */}
-      <div className="absolute top-[5%] left-[5%] w-[300px] h-[300px] bg-purple-600 opacity-30 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-      <div className="absolute bottom-[5%] right-[5%] w-[400px] h-[400px] bg-pink-500 opacity-20 rounded-full blur-3xl animate-ping pointer-events-none"></div>
+      <div className="absolute top-[5%] left-[5%] w-[300px] h-[300px] bg-purple-600 opacity-30 rounded-full blur-3xl animate-pulse pointer-events-none z-0"></div>
+      <div className="absolute bottom-[5%] right-[5%] w-[400px] h-[400px] bg-pink-500 opacity-20 rounded-full blur-3xl animate-ping pointer-events-none z-0"></div>
 
       {/* 🏋️‍♂️ Hero Text */}
       <motion.div

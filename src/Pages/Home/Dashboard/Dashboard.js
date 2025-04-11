@@ -43,7 +43,19 @@ const Dashboard = () => {
       transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
       className="min-h-screen bg-black text-white px-6 py-10 relative overflow-hidden"
     >
-      {/* ✨ Magical Background */}
+      {/* 🌌 Stars Background */}
+      <div
+        className="absolute inset-0 z-0 bg-repeat bg-center bg-cover pointer-events-none"
+        style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/stars.gif)` }}
+      />
+
+      {/* 🧠 HUD Overlay */}
+      <div
+        className="absolute inset-0 z-10 bg-cover bg-center opacity-20 pointer-events-none"
+        style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/hud-overlay.png)` }}
+      />
+
+      {/* ✨ Magical Gradient Backgrounds */}
       <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute w-[300px] h-[300px] bg-indigo-500 opacity-30 blur-3xl top-[20%] left-[15%] animate-pulse rounded-full"></div>
         <div className="absolute w-[400px] h-[400px] bg-pink-500 opacity-20 blur-3xl top-[55%] left-[65%] animate-ping rounded-full"></div>
@@ -55,13 +67,13 @@ const Dashboard = () => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2 }}
-        className="text-center text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 bg-clip-text text-transparent mb-16 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] z-10 relative"
+        className="text-center text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 bg-clip-text text-transparent mb-16 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] z-20 relative"
       >
         ✨ FITTRACK Dashboard
       </motion.h1>
 
       {/* 📦 Grid Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 z-10 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 z-20 relative">
         {cards.map((card, index) => (
           <Tilt
             key={index}
