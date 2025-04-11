@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
@@ -26,6 +26,7 @@ let interacted = false;
 if (typeof window !== 'undefined') {
   window.addEventListener('click', () => { interacted = true; }, { once: true });
 }
+
 const playHoverSound = () => {
   if (!interacted) return;
   const audio = new Audio('/sounds/hover.mp3');
@@ -33,8 +34,19 @@ const playHoverSound = () => {
   audio.play().catch(e => console.warn(e));
 };
 
+const playIntroSound = () => {
+  if (!interacted) return;
+  const audio = new Audio('/sounds/intro.mp3');
+  audio.volume = 0.7;
+  audio.play().catch(e => console.warn(e));
+};
+
 const Dashboard = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    playIntroSound();
+  }, []);
 
   return (
     <motion.div
@@ -62,12 +74,22 @@ const Dashboard = () => {
         <div className="absolute w-[200px] h-[200px] bg-cyan-400 opacity-20 blur-2xl top-[5%] left-[75%] rounded-full animate-bounce"></div>
       </div>
 
+      {/* ⏳ Activation Message */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.3 }}
+        className="text-center text-lg sm:text-xl text-cyan-400 font-mono z-20 relative mb-6 animate-pulse"
+      >
+        ⏳ Activating High Command Panel...
+      </motion.div>
+
       {/* 🪄 Title */}
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2 }}
-        className="text-center text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 bg-clip-text text-transparent mb-16 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] z-20 relative"
+        className="text-center text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 bg-clip-text text-transparent mb-16 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] z-20 relative animate-pulse"
       >
         ✨ FITTRACK Dashboard
       </motion.h1>

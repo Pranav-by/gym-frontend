@@ -29,18 +29,23 @@ function App() {
 
   useEffect(() => {
     const isLoggedIn = sessionStorage.getItem("isLogin");
-    setIsLogin(isLoggedIn === "true"); // ✅ only show sidebar if actually logged in
+    setIsLogin(isLoggedIn === "true");
   }, []);
 
   return (
     <div className="flex min-h-screen overflow-hidden bg-black">
+      {/* Sidebar for authenticated users */}
       {isLogin && <Sidebar />}
+
       <div className="flex-1 overflow-auto">
         <ToastContainer position="top-right" autoClose={3000} />
+
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home setIsLogin={setIsLogin} />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
 
+          {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/member" element={<ProtectedRoute><Member /></ProtectedRoute>} />
           <Route path="/plans" element={<ProtectedRoute><MembershipPlans /></ProtectedRoute>} />
@@ -55,6 +60,7 @@ function App() {
           <Route path="/registrations" element={<ProtectedRoute><NewRegistration /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
 
+          {/* 404 Fallback */}
           <Route path="*" element={<div className="p-4 text-white">404 - Page Not Found</div>} />
         </Routes>
       </div>

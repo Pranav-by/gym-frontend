@@ -8,10 +8,12 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [popup, setPopup] = useState('');
 
   const handleSignup = () => {
     if (!username.trim() || !email.trim() || !password.trim()) {
-      alert('⚠️ Please fill in all fields!');
+      setPopup('⚠️ Please fill in all fields!');
+      setTimeout(() => setPopup(''), 3000); // Hide after 3s
       return;
     }
 
@@ -20,7 +22,16 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[70vh]">
+    <div className="flex items-center justify-center min-h-[70vh] relative">
+
+      {/* 🔥 Stylish Animated Popup */}
+      {popup && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-red-600/90 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-2xl animate-fade-in-out z-50 backdrop-blur-sm border border-white/20">
+          {popup}
+        </div>
+      )}
+
+      {/* 💫 Signup Card */}
       <Tilt scale={1.05} glareEnable={true} glareMaxOpacity={0.2} className="rounded-3xl">
         <div className="w-[350px] p-8 rounded-3xl bg-black/30 backdrop-blur-md border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.15)] text-white relative overflow-hidden">
 

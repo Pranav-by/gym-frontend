@@ -6,18 +6,36 @@ import Signup from '../../Components/Signup/Signup';
 const Home = ({ setIsLogin }) => {
   const [activeTab, setActiveTab] = useState('login');
   const [userInteracted, setUserInteracted] = useState(false);
+  const [bgAudio, setBgAudio] = useState(null);
 
   useEffect(() => {
-    const handleInteraction = () => setUserInteracted(true);
+    const handleInteraction = () => {
+      setUserInteracted(true);
+
+      // Play background audio
+      const audio = new Audio('/sounds/home-sound.mp3');
+      audio.loop = true;
+      audio.volume = 0.4;
+      audio.play().catch((err) => console.warn('Autoplay blocked:', err));
+      setBgAudio(audio);
+    };
+
     window.addEventListener('click', handleInteraction, { once: true });
-    return () => window.removeEventListener('click', handleInteraction);
-  }, []);
+
+    return () => {
+      window.removeEventListener('click', handleInteraction);
+      if (bgAudio) {
+        bgAudio.pause();
+        bgAudio.currentTime = 0;
+      }
+    };
+  }, [bgAudio]);
 
   const playHoverSound = () => {
     if (!userInteracted) return;
     const audio = new Audio('/sounds/hover.mp3');
     audio.volume = 0.5;
-    audio.play().catch((err) => console.warn('Sound blocked:', err));
+    audio.play().catch((err) => console.warn('Hover sound blocked:', err));
   };
 
   return (

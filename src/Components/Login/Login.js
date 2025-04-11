@@ -1,27 +1,38 @@
-// src/Components/Login/Login.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Tilt from 'react-parallax-tilt';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 
+
 const Login = ({ setIsLogin }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [popup, setPopup] = useState('');
 
   const handleLogin = () => {
     if (!username.trim() || !password.trim()) {
-      alert('⚠️ Please fill in both Username and Password!');
+      setPopup('⚠️ Please fill in both Username and Password!');
+      setTimeout(() => setPopup(''), 3000); // Hide after 3s
       return;
     }
 
-    sessionStorage.setItem('isLogin', "true"); // ✅ store as string
-    setIsLogin(true); // ✅ update App.js state
+    sessionStorage.setItem('isLogin', 'true');
+    setIsLogin(true);
     navigate('/dashboard');
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[70vh]">
+    <div className="flex items-center justify-center min-h-[70vh] relative">
+      
+      {/* 🔥 Stylish Animated Popup */}
+      {popup && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-red-600/90 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-2xl animate-fade-in-out z-50 backdrop-blur-sm border border-white/20">
+          {popup}
+        </div>
+      )}
+
+      {/* 💫 Login Card */}
       <Tilt scale={1.05} glareEnable={true} glareMaxOpacity={0.2} className="rounded-3xl">
         <div className="w-[350px] p-8 rounded-3xl bg-black/30 backdrop-blur-md border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.15)] text-white relative overflow-hidden">
 
@@ -39,6 +50,7 @@ const Login = ({ setIsLogin }) => {
             onChange={(e) => setUsername(e.target.value)}
             className="w-full p-3 mb-4 rounded-md bg-white/10 border border-white/10 text-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
           />
+
           <input
             type="password"
             placeholder="Password"
