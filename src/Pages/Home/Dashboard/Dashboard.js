@@ -31,7 +31,7 @@ const playIntroThenHomeSound = () => {
   const intro = new Audio('/sounds/intro.mp3');
   const home = new Audio('/sounds/home-sound.mp3');
   intro.volume = 0.7;
-  home.volume = 0.6;
+  home.volume = 0.3; // 👈 Volume reduced to 50%
 
   intro.play().then(() => {
     intro.onended = () => {
