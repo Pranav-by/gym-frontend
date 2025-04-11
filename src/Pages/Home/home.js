@@ -57,7 +57,7 @@ const Home = ({ setIsLogin }) => {
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: 0.15,
+          opacity: 0.4,
         }}
       />
 

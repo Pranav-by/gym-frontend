@@ -31,7 +31,7 @@ const playIntroThenHomeSound = () => {
   const intro = new Audio('/sounds/intro.mp3');
   const home = new Audio('/sounds/home-sound.mp3');
   intro.volume = 0.7;
-  home.volume = 0.3; // 👈 Volume reduced to 50%
+  home.volume = 0.3;
 
   intro.play().then(() => {
     intro.onended = () => {
@@ -62,8 +62,13 @@ const Dashboard = () => {
 
       {/* 🧠 HUD Overlay */}
       <div
-        className="absolute inset-0 z-10 bg-cover bg-center opacity-20 pointer-events-none"
-        style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/hud-overlay.png)` }}
+        className="absolute inset-0 z-10 bg-cover bg-center pointer-events-none"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/hud-overlay.png)`,
+          opacity: 0.4,
+          mixBlendMode: 'screen',
+          filter: 'blur(0.5px)'
+        }}
       />
 
       {/* ✨ Magical Gradient Backgrounds */}
