@@ -21,31 +21,30 @@ const cards = [
   { title: 'Feedback & Queries', icon: <Feedback fontSize="large" />, path: '/feedback', color: "from-gray-400 via-gray-600 to-gray-800" }
 ];
 
-// 🔊 Sound Setup
 let interacted = false;
 if (typeof window !== 'undefined') {
   window.addEventListener('click', () => { interacted = true; }, { once: true });
 }
 
-const playHoverSound = () => {
+const playIntroThenHomeSound = () => {
   if (!interacted) return;
-  const audio = new Audio('/sounds/hover.mp3');
-  audio.volume = 0.4;
-  audio.play().catch(e => console.warn(e));
-};
+  const intro = new Audio('/sounds/intro.mp3');
+  const home = new Audio('/sounds/home-sound.mp3');
+  intro.volume = 0.7;
+  home.volume = 0.6;
 
-const playIntroSound = () => {
-  if (!interacted) return;
-  const audio = new Audio('/sounds/intro.mp3');
-  audio.volume = 0.7;
-  audio.play().catch(e => console.warn(e));
+  intro.play().then(() => {
+    intro.onended = () => {
+      home.play().catch(e => console.warn('Home sound error:', e));
+    };
+  }).catch(e => console.warn('Intro sound error:', e));
 };
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    playIntroSound();
+    playIntroThenHomeSound();
   }, []);
 
   return (
@@ -109,23 +108,15 @@ const Dashboard = () => {
             className="rounded-3xl"
           >
             <motion.div
-              onMouseEnter={playHoverSound}
               onClick={() => navigate(card.path)}
               className="relative rounded-3xl p-6 cursor-pointer backdrop-blur-2xl shadow-xl border border-white/10 bg-white/5 group overflow-hidden"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.07 }}
             >
-              {/* ✨ Shine Effect */}
               <div className="absolute top-0 left-[-75%] w-[50%] h-full bg-white/10 rotate-[30deg] group-hover:animate-[shine_1s_linear] z-20 pointer-events-none"></div>
-
-              {/* Gradient Bar */}
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.color} rounded-t-3xl animate-pulse`} />
-
-              {/* 🌈 BG Glow */}
               <div className={`absolute inset-0 rounded-3xl opacity-20 bg-gradient-to-br ${card.color} blur-2xl`} />
-
-              {/* 🌟 Content */}
               <div className="relative z-10 space-y-2">
                 <div className="text-cyan-300 text-5xl group-hover:scale-110 transition duration-300">{card.icon}</div>
                 <h2 className="text-2xl font-bold">{card.title}</h2>
