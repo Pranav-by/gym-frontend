@@ -17,6 +17,13 @@ const Signup = () => {
       return;
     }
 
+    // ✅ Console logging before backend logic
+    console.log('📝 Signup Form Submitted');
+    console.log('Username:', username);
+    console.log('Email:', email);
+    console.log('Password:', password);
+
+    // Simulate login after signup
     sessionStorage.setItem('isLogin', "true");
     navigate('/dashboard');
   };
@@ -49,6 +56,7 @@ const Signup = () => {
             onChange={(e) => setUsername(e.target.value)}
             className="w-full p-3 mb-4 rounded-md bg-white/10 border border-white/10 text-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
           />
+
           <input
             type="email"
             placeholder="Email"
@@ -56,6 +64,7 @@ const Signup = () => {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full p-3 mb-4 rounded-md bg-white/10 border border-white/10 text-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
           />
+
           <input
             type="password"
             placeholder="Password"
@@ -70,7 +79,6 @@ const Signup = () => {
           >
             Sign Up
           </button>
-
         </div>
       </Tilt>
     </div>

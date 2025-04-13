@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import Tilt from 'react-parallax-tilt';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 
-
 const Login = ({ setIsLogin }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -17,6 +16,12 @@ const Login = ({ setIsLogin }) => {
       return;
     }
 
+    // ✅ Console logging before backend
+    console.log('📝 Form Submitted');
+    console.log('Username:', username);
+    console.log('Password:', password);
+
+    // 🔐 Simulate successful login
     sessionStorage.setItem('isLogin', 'true');
     setIsLogin(true);
     navigate('/dashboard');
